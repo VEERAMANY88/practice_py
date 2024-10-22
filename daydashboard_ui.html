@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPI Dashboard</title>
+    <style>
+        #kpiHeader {
+            background-color: #2392FE;
+            color: white;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse; 
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: none; 
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+       
+        td, th {
+            border-bottom: 2px solid #ddd; 
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        #dashboardHeader {
+            background-color: #2392FE;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<!-- KPI Header -->
+<div id="kpiHeader">GPS bp (Days)</div>
+
+<!-- Data Table -->
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Tgt</th>
+            <th>Ach</th>
+            <th>Ach %</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+
+
+<script>
+    
+    const apiUrl = 'http://127.0.0.1:5000/api/data'; 
+
+    
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); 
+        })
+        .then(jsonData => {
+            const tableBody = document.querySelector('#dataTable tbody');
+
+           
+            jsonData.day_level.forEach(item => {
+                const tableRow = document.createElement('tr');
+
+                // Create cells and append them to the row
+                const dateCell = document.createElement('td');
+                dateCell.innerText = item.trans_date;
+                tableRow.appendChild(dateCell);
+
+                const targetCell = document.createElement('td');
+                targetCell.innerText = item.target;
+                tableRow.appendChild(targetCell);
+
+                const achievedCell = document.createElement('td');
+                achievedCell.innerText = item.achieved;
+                tableRow.appendChild(achievedCell);
+
+                const achievedPercCell = document.createElement('td');
+                achievedPercCell.innerText = item.achieved_perc + '%';
+                
+               
+                if (item.color_code === 3.0) {
+                    achievedPercCell.style.color = '#70C697'; 
+                }
+                
+                tableRow.appendChild(achievedPercCell);
+
+                tableBody.appendChild(tableRow);
+            });
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+</script>
+
+</body>
+</html>
