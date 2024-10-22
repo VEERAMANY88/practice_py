@@ -84,7 +84,9 @@
 
 <script>
     
-    const apiUrl = 'http://3.80.63.197:5000/api/data'; 
+    //const apiUrl = 'http://3.80.63.197:5000/api/data'; 
+    const apiUrl = 'http://127.0.0.1:5000/api/data'; 
+    
 
     
     fetch(apiUrl)
@@ -115,17 +117,20 @@
                 tableRow.appendChild(achievedCell);
 
                 const achievedPercCell = document.createElement('td');
-                achievedPercCell.innerText = item.achieved_perc + '%';
+                achievedPercCell.innerText = item.achieved_perc;
                 
                
                 if (item.color_code === 3.0) {
                     achievedPercCell.style.color = '#70C697'; 
+                    achievedPercCell.style.fontWeight='bold';
                 }
                 if (item.color_code === 2.0) {
                     achievedPercCell.style.color = '#ECBD75'; 
+                    achievedPercCell.style.fontWeight='bold';
                 }
                 if (item.color_code === 5.0) {
                     achievedPercCell.style.color = '#E07A87'; 
+                    achievedPercCell.style.fontWeight='bold';
                 }
                 tableRow.appendChild(achievedPercCell);
 
