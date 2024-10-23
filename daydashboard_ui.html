@@ -13,35 +13,43 @@
             font-weight: bold;
             text-align: left;
         }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8; /* Light background for visibility */
+        }
 
         table {
-            border-collapse: collapse; 
             width: 100%;
-            margin-top: 10px;
+            border-collapse: collapse;
+            margin: 20px auto;
+            max-width: 600px;
+            background-color: transparent; /* Transparent background */
         }
 
         th, td {
             padding: 8px;
             text-align: center;
             border: none; 
+            /* font-weight: bold; */
+            color: #000000;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #DCE5EE;
             font-weight: bold;
         }
 
        
         td, th {
-            border-bottom: 2px solid #ddd; 
+            border-bottom: 2px solid #FFFFFF; 
         }
 
-        tr:nth-child(even) {
+        /* tr:nth-child(even) {
             background-color: #f9f9f9;
-        }
+        } */
 
         tr:hover {
-            background-color: #f1f1f1;
+            background-color: #EAEEF8;
         }
 
         #dashboardHeader {
@@ -91,21 +99,50 @@
     
     fetch(apiUrl)
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); 
-        })
-        .then(jsonData => {
-            const tableBody = document.querySelector('#dataTable tbody');
+            // if (!response.ok) {
+            //     throw new Error('Network response was not ok');
+            // }
+            // return response.json(); 
 
+            if (response.status === 200) {
+                 return response.json(); 
+             } else {
+                     throw new Error(`Request failed with status: ${response.status}`);
+            }
+        })
+        .then(mocdata => {
+            const tableBody = document.querySelector('#dataTable tbody');
+            tableBody.innerHTML = ''; // Clear previous data
+
+          
+            if (!mocdata.day_level || mocdata.day_level.length === 0) {
+                const noDataRow = document.createElement('tr');
+                const noDataCell = document.createElement('td');
+               
+                noDataCell.colSpan = 4; 
+                
+                noDataCell.textContent = 'No data found';
+                noDataCell.style.textAlign = 'center'; 
+
+                noDataRow.appendChild(noDataCell);
+                tableBody.appendChild(noDataRow);
+                return; 
+            }
+
+            const fragment = document.createDocumentFragment();
            
-            jsonData.day_level.forEach(item => {
+            mocdata.day_level.forEach(item => {
                 const tableRow = document.createElement('tr');
 
-                // Create cells and append them to the row
+                const originalDate  = item.trans_date;
+                const dateParts = originalDate.split('-');
+                const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
                 const dateCell = document.createElement('td');
-                dateCell.innerText = item.trans_date;
+                dateCell.textContent = formattedDate;
+
+                // const dateCell = document.createElement('td');
+                // dateCell.innerText = item.trans_date;
+
                 tableRow.appendChild(dateCell);
 
                 const targetCell = document.createElement('td');
@@ -121,15 +158,15 @@
                 
                
                 if (item.color_code === 3.0) {
-                    achievedPercCell.style.color = '#70C697'; 
+                    achievedPercCell.style.color = '#EB3324'; 
                     achievedPercCell.style.fontWeight='bold';
                 }
                 if (item.color_code === 2.0) {
-                    achievedPercCell.style.color = '#ECBD75'; 
+                    achievedPercCell.style.color = '#DE9F3D'; 
                     achievedPercCell.style.fontWeight='bold';
                 }
                 if (item.color_code === 5.0) {
-                    achievedPercCell.style.color = '#E07A87'; 
+                    achievedPercCell.style.color = '#00FF00'; 
                     achievedPercCell.style.fontWeight='bold';
                 }
                 tableRow.appendChild(achievedPercCell);
