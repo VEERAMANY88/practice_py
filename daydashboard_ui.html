@@ -92,12 +92,31 @@
 
 <script>
     
-    const apiUrl = 'http://98.81.215.30:5000/api/data'; 
+   // const apiUrl = 'http://98.81.215.30:5000/api/data'; 
     // const apiUrl = 'http://127.0.0.1:5000/api/data'; 
-    
+
+    const url = 'https://salesedge-stg.hulcd.com/salesedge/api/v1/salesman/day_kpi_history'; 
+    const headers = {
+        'Content-Type': 'application/json', 
+        'moc': 'NA',
+        'eventid': '20241022154307437',
+        'xversioncode': '141',
+        'role': '4',
+        'gvalue': 'GPS BP (Days)',
+        'rscode': '41A320',
+        'isShikhar': '0',
+        'salcode': '41A320_SMN00008',
+        'empcode': '600028978',
+        'versioncode': '84',
+        'token': 'eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoiNjAwMDA5MjI4IiwiZXhwaXJlc0luIjoxNTk1MTQ0MzYwNTcsInBvc2l0aW9uX2NvZGUiOiI0MTQxNzBfU01OMDAwMTYiLCJkZXZpY2VfaWQiOiIzYzM3NTMwNjY3OGNlNzc3IiwiYXR0X2ZsYWciOjB9.oSuuZP6GlI002bABy7ys9BvMd8BavIuWtmO66q2LhtU'
+    };
 
     
-    fetch(apiUrl)
+        fetch(url,{
+            
+            method: 'GET', // or 'GET' depending on your API
+            headers: headers,
+        })
         .then(response => {
             // if (!response.ok) {
             //     throw new Error('Network response was not ok');
