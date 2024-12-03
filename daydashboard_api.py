@@ -4,7 +4,7 @@ from flask_cors import CORS  # Import CORS
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-@app.route('/api/data', methods=['GET'])
+@app.route('/kpi', methods=['GET'])
 def get_data():
     data = {
         "messagecode": 200,
